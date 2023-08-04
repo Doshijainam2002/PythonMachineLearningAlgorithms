@@ -16,11 +16,11 @@ x_test = x_test.reshape(-1,28,28,1).astype('float32')/255.0
 learning_rate = 0.001
 optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
 model = keras.Sequential([
-    keras.layers.Conv2D(128,(3,3),activation='relu',input_shape=(28,28,1)),
+    keras.layers.Conv2D(64,(3,3),activation='relu',input_shape=(28,28,1)),
+    keras.layers.BatchNormalization(),
     keras.layers.MaxPooling2D((2,2)),
-    keras.layers.Conv2D(128,(3,3,), activation='relu'),
-    keras.layers.MaxPooling2D((2,2)),
-    keras.layers.Conv2D(128,(3,3),activation='relu'),
+    keras.layers.Conv2D(64,(3,3,), activation='relu'),
+    keras.layers.BatchNormalization(),
     keras.layers.MaxPooling2D((2,2)),
     keras.layers.Flatten(),
     keras.layers.Dense(128,activation='relu'),
@@ -52,7 +52,7 @@ train_generator = datagen.flow(x_train, y_train, batch_size=batch_size)
 model.fit(train_generator, steps_per_epoch=steps_per_epoch, epochs=epochs, validation_data=(x_test, y_test))
 
 # Load the provided input image for testing
-input_image = cv2.imread('/Users/jainamdoshi/Desktop/Datasets/SampleImageCNN.webp', cv2.IMREAD_GRAYSCALE)
+input_image = cv2.imread('/Users/jainamdoshi/Desktop/Datasets/SampleImageCNN.png', cv2.IMREAD_GRAYSCALE)
 input_image = cv2.resize(input_image, (28, 28)) / 255.0
 input_image = np.expand_dims(input_image, axis=-1)
 input_image = np.expand_dims(input_image, axis=0)
